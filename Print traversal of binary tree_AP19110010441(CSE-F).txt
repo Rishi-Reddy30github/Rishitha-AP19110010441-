@@ -1,0 +1,70 @@
+/****program to print Preorder,postorder,inorder****/
+#include <stdio.h>
+#include <stdlib.h> /*adding library*/
+struct node
+{
+  int data;
+  struct node *leftchain;/*structure for left side branch*/
+  struct node *rightchain;/*structure for right side branch*/
+};
+struct node *
+createNode (int value)
+{
+  struct node *newNode = malloc (sizeof (struct node));/*Using malloc function to store size*/
+  newNode->data = value;
+  newNode->leftchain = NULL;
+  newNode->rightchain = NULL;
+
+  return newNode;
+}
+
+void
+inorder (struct node *root)/*function for printing inorder*/
+{
+  if (root == NULL)
+    return;
+  inorder (root->leftchain);
+  printf ("%d ->", root->data);
+  inorder (root->rightchain);
+}
+
+void
+preorder (struct node *root)/*function for printing preorder*/
+{
+  if (root == NULL)
+    return;
+  printf ("%d ->", root->data);
+  preorder (root->leftchain);
+  preorder (root->rightchain);
+}
+
+void
+postorder (struct node *root)/*function for printing postorder*/
+{
+  if (root == NULL)
+    return;
+  postorder (root->leftchain);
+  postorder (root->rightchain);
+  printf ("%d ->", root->data);
+}
+
+void
+main ()
+{
+  struct node *root = createNode (20);
+  root->leftchain = createNode (14);
+  root->rightchain = createNode (6);
+
+  root->leftchain->leftchain = createNode (18);
+  root->leftchain->rightchain = createNode (11);
+
+  printf ("Inorder traversal \n");/*displays inorder traversal*/
+  inorder (root);
+
+  printf ("\nPreorder traversal \n");/*displays preorder traversal*/
+  preorder (root);
+
+  printf ("\nPostorder traversal \n");/*displays postorder traversal*/
+  postorder (root);
+}
+

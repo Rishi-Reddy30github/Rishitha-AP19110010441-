@@ -1,0 +1,37 @@
+******************binary search****************
+#include <stdio.h>
+void main()
+{
+  int  first, last, middle, r, s, search, arr[150];
+
+  printf("Enter total elements to be in array\n");
+  scanf("%d", &s);
+
+  printf("Enter %d integers\n", s);
+
+  for (r = 0; r < s; r++)
+    scanf("%d", &arr[r]);
+
+  printf("Enter value to find\n");
+  scanf("%d", &search);
+
+  first = 0;
+  last = s - 1;
+  middle = (first+last)/2;
+
+  while (first <= last) {
+    if (arr[middle] < search)
+      first = middle + 1;
+    else if (arr[middle] == search) {
+      printf("%d found at location %d.\n", search, middle+1);
+      break;
+    }
+    else
+      last = middle - 1;
+
+    middle = (first + last)/2;
+  }
+  if (first > last)
+    printf("Not found! %d isn't present in the list.\n", search);
+
+}

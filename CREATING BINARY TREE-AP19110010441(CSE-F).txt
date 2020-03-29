@@ -1,0 +1,84 @@
+/****** program to construct tree from inorder traversal *********/
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node			/*pointer to left child and pointer to right child */
+{
+  int data;
+  struct node *leftkid;
+  struct node *rightkid;
+};
+
+int max (int inorder[], int strt, int end);	/* function to get the max-value in inorder */
+
+struct node *newNode (int data);	/* allocating memory for a node */
+
+struct node *
+buildTree (int inorder[], int start, int end)
+{
+  if (start > end)
+    return NULL;
+  int i = max (inorder, start, end);	/*index of the max-element */
+  struct node *root = newNode (inorder[i]);
+  if (start == end)
+    return root;
+  root->leftkid = buildTree (inorder, start, i - 1);
+  root->rightkid = buildTree (inorder, i + 1, end);
+
+  return root;
+}
+
+/* UTILITY FUNCTIONS */
+int
+max (int arr[], int strt, int end)	/* finding index of the max-value */
+{
+  int i, max = arr[strt], maxind = strt;
+  for (i = strt + 1; i <= end; i++)
+    {
+      if (arr[i] > max)
+	{
+	  max = arr[i];
+	  maxind = i;
+	}
+    }
+  return maxind;
+}
+
+struct node *
+newNode (int data)		/*allocates a new node with the given data. */
+{
+  struct node *node = (struct node *) malloc (sizeof (struct node));
+  node->data = data;
+  node->leftkid = NULL;
+  node->rightkid = NULL;
+
+  return node;
+}
+
+void
+printInorder (struct node *node)
+{
+  if (node == NULL)
+    return;
+  printInorder (node->leftkid);
+  printf ("%d ", node->data);
+  printInorder (node->rightkid);
+}
+
+int main ()
+{
+  /* Assume that inorder traversal of following tree is given 
+     40 
+     /   \ 
+     10     30 
+     /         \ 
+     5          28 */
+
+  int inorder[] = { 5, 10, 40, 30, 28 };
+  int len = sizeof (inorder) / sizeof (inorder[0]);
+  struct node *root = buildTree (inorder, 0, len - 1);
+
+  printf ("\n Inorder traversal of the constructed tree is \n");	/* printing Inorder traversal for testing */
+  printInorder (root);
+  return 0;
+}

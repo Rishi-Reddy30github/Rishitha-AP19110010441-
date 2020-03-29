@@ -1,0 +1,32 @@
+
+*******************Program for Linear search***********************
+#include <stdio.h>
+int main()
+{
+  int arr[100], search, r, s;
+  
+  printf("Enter %d integer(s)\n", s);
+
+  printf("Enter number of elements should be in array\n");
+  scanf("%d", &s);
+
+
+  for (r = 0; r < s; r++)
+    scanf("%d", &arr[r]);
+
+  printf("Enter a number to find\n");
+  scanf("%d", &search);
+
+  for (r = 0; r < s; r++)
+  {
+    if (arr[r] == search)    
+    {
+      printf("%d is present at location %d.\n", search, r+1);
+      break;
+    }
+  }
+  if (r == s)
+    printf("%d isn't present in the array.\n", search);
+
+  return 0;
+}
