@@ -1,0 +1,100 @@
+//*************Implementing queue using two stacks**********//
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node** top, int data);
+int pop(struct node** top);
+struct queue
+{
+    struct node *st1;//structures for stack1//
+    struct node *st2;//structure for stack 2//
+};
+void enqueue(struct queue *q, int x)
+{
+    push(&q->st1, x);
+}
+void dequeue(struct queue *q)
+{
+    int x;
+    if (q->st1 == NULL && q->st2 == NULL) {
+        printf("queue is empty");
+        return;
+    }
+    if (q->st2 == NULL) {
+        while (q->st1 != NULL) {
+        x = pop(&q->st1);
+        push(&q->st2, x);
+        }
+    }
+    x = pop(&q->st2);
+    printf("%d\n", x);
+}
+void push(struct node** top, int data)
+{
+    struct node* newnode = (struct node*) malloc(sizeof(struct node));//alloting size of node//
+        if (newnode == NULL) {
+            printf("Stack overflow \n");
+            return;
+        }
+    newnode->data = data;
+    newnode->next = (*top);
+    (*top) = newnode;
+}
+int pop(struct node** top)
+{
+    int buff;
+    struct node *t;
+    if (*top == NULL) {
+        printf("Stack underflow \n");
+        return;
+    }
+    else {
+        t = *top;
+        buff = t->data;
+        *top = t->next;
+        free(t);
+        return buff;
+    }
+}
+void display(struct node *top1,struct node *top2)
+{
+    while (top1 != NULL) {
+        printf("%d\n", top1->data);
+        top1 = top1->next;
+    }
+    while (top2 != NULL) {
+        printf("%d\n", top2->data);
+        top2 = top2->next;
+    }
+}
+int main()//main function//
+{
+    struct queue *q = (struct queue*)malloc(sizeof(struct queue));
+    int f = 0, a;
+    char ch = 'y';
+    q->st1 = NULL;
+    q->st2 = NULL;
+    while (ch == 'y'||ch == 'Y') {
+        printf("enter ur choice\n1.add to queue\n2.remove from queue\n3.display\n4.exit\n");
+        scanf("%d", &f);
+        switch(f) //switch case//
+        {
+            case 1 : printf("enter the element to be added to queue\n");
+                     scanf("%d", &a);
+                     enqueue(q, a);
+                     break;
+            case 2 : dequeue(q);
+                     break;
+            case 3 : display(q->st1, q->st2);
+                     break;
+            case 4 : exit(1);
+                     break;
+            default : printf("invalid\n");
+                      break;
+        }
+    }
+}
